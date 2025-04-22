@@ -1,0 +1,27 @@
+name: CI
+
+# on: [push] triggers pipeline when a push is made to any branch in the repository 
+on: 
+  push: 
+    branches: 
+      - main 
+
+jobs:
+  sast_scan:
+    name: Run Bandit Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Python installation # setup python on the environment 
+      uses: actions/setup-python@v2
+      with: 
+        python-version: 3.8
+
+    # install Bandit 
+    - name: Install Bandit 
+      run: pip install bandit
+
+    - name: Run Bandit Scan 
+      run: bandit -r .   # scans everything in the current folders recursively 
